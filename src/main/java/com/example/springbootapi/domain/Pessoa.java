@@ -1,4 +1,4 @@
-package com.example.springbootapi.entity;
+package com.example.springbootapi.domain;
 
 import lombok.Data;
 
@@ -18,4 +18,6 @@ public class Pessoa {
     @Column(nullable = false)
     private String nome;
 
+    @Column(nullable = false)
+    private Integer idade;
 }

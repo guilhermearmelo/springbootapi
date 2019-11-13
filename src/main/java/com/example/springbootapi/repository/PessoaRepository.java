@@ -1,6 +1,6 @@
 package com.example.springbootapi.repository;
 
-import com.example.springbootapi.entity.Pessoa;
+import com.example.springbootapi.domain.Pessoa;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
 
