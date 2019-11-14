@@ -15,75 +15,43 @@ import org.springframework.web.bind.annotation.*;
 
 @RestController
 public class PessoaController {
+
     @Autowired
-    private PessoaRepository pessoaRepository;
     private PessoaService pessoaService;
 
     // GET
     @RequestMapping(value = "/pessoa", method = RequestMethod.GET)
     public List<Pessoa> Get() {
-        return pessoaRepository.findAll();
+        return pessoaService.BuscarTodos();
     }
 
     // POST
     @RequestMapping(value = "/pessoa", method =  RequestMethod.POST)
-    public Pessoa Post(@Valid @RequestBody Pessoa pessoa)
-    {
-        return pessoaRepository.save(pessoa);
+    public Pessoa Post(@Valid @RequestBody Pessoa pessoa) {
+        return pessoaService.Inserir(pessoa);
     }
 
     // GET BY ID
     @RequestMapping(value = "/pessoa/{id}", method = RequestMethod.GET)
-    public ResponseEntity<Pessoa> GetById(@PathVariable(value = "id") long id)
-    {
-        Optional<Pessoa> pessoa = pessoaRepository.findById(id);
-        if(pessoa.isPresent())
-            return new ResponseEntity<Pessoa>(pessoa.get(), HttpStatus.OK);
-        else
-            return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+    public ResponseEntity<Pessoa> GetById(@PathVariable(value = "id") long id) {
+        return pessoaService.BuscarPorId(id);
     }
 
-    // PUT WITH SERVICE
+    // PUT (ANIVERSARIO)
     @RequestMapping(value = "/pessoa_aniversario/{id}", method = RequestMethod.PUT)
     public ResponseEntity<Pessoa> Aniversario(@PathVariable(value = "id") long id){
-        Get();
-        Optional<Pessoa> oldPessoa = pessoaRepository.findById(id);
-        if(oldPessoa.isPresent()){
-            Pessoa newPessoa = oldPessoa.get();
-            PessoaService pessoaService = new PessoaService(pessoaRepository);
-            newPessoa = pessoaService.aniversario(newPessoa);
-            pessoaRepository.save(newPessoa);
-            return new ResponseEntity<>(newPessoa, HttpStatus.OK);
-        }
-        else return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+        return pessoaService.FazerAniversario(id);
     }
-
 
     // PUT
     @RequestMapping(value = "/pessoa/{id}", method =  RequestMethod.PUT)
-    public ResponseEntity<Pessoa> Put(@PathVariable(value = "id") long id, @Valid @RequestBody Pessoa newPessoa)
-    {
-        Optional<Pessoa> oldPessoa = pessoaRepository.findById(id);
-        if(oldPessoa.isPresent()){
-            Pessoa pessoa = oldPessoa.get();
-            pessoa.setNome(newPessoa.getNome());
-            pessoaRepository.save(pessoa);
-            return new ResponseEntity<Pessoa>(pessoa, HttpStatus.OK);
-        }
-        else
-            return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+    public ResponseEntity<Pessoa> Put(@PathVariable(value = "id") long id, @Valid @RequestBody Pessoa newPessoa) {
+        return pessoaService.AtualizarPorId(id, newPessoa);
     }
 
     // DELETE BY ID
     @RequestMapping(value = "/pessoa/{id}", method = RequestMethod.DELETE)
-    public ResponseEntity<Object> Delete(@PathVariable(value = "id") long id)
-    {
-        Optional<Pessoa> pessoa = pessoaRepository.findById(id);
-        if(pessoa.isPresent()){
-            pessoaRepository.delete(pessoa.get());
-            return new ResponseEntity<>(HttpStatus.OK);
-        }
-        else
-            return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+    public ResponseEntity<Object> Delete(@PathVariable(value = "id") long id) {
+        return  pessoaService.ApagarPorId(id);
     }
 }
