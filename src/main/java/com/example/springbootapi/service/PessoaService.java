@@ -1,5 +1,6 @@
 package com.example.springbootapi.service;
 
+import com.example.springbootapi.abstracts.BaseRepository;
 import com.example.springbootapi.domain.Pessoa;
 import com.example.springbootapi.repository.PessoaRepository;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -14,21 +15,27 @@ import java.util.Optional;
 public class PessoaService {
     private PessoaRepository pessoaRepository;
 
+    //@Override
+    public BaseRepository<Pessoa> getRepository(){
+        return pessoaRepository;
+    }
+
+
     @Autowired
     public PessoaService(PessoaRepository pessoaRepository){
         this.pessoaRepository = pessoaRepository;
     }
 
     public List<Pessoa> BuscarTodos() {
-        return pessoaRepository.findAll();
+        return getRepository().findAll();
     }
 
     public Pessoa Inserir(Pessoa pessoa){
-        return pessoaRepository.save(pessoa);
+        return getRepository().save(pessoa);
     }
 
     public ResponseEntity<Pessoa> BuscarPorId(Long id){
-        Optional<Pessoa> pessoa = pessoaRepository.findById(id);
+        Optional<Pessoa> pessoa = getRepository().findById(id);
         if(pessoa.isPresent())
             return new ResponseEntity<Pessoa>(pessoa.get(), HttpStatus.OK);
         else
@@ -36,11 +43,11 @@ public class PessoaService {
     }
 
     public ResponseEntity<Pessoa> FazerAniversario(Long id){
-        Optional<Pessoa> entry = pessoaRepository.findById(id);
+        Optional<Pessoa> entry = getRepository().findById(id);
         if(entry.isPresent()) {
             Pessoa pessoa = entry.get();
             pessoa.setIdade(pessoa.getIdade() + 1);
-            pessoaRepository.save(pessoa);
+            getRepository().save(pessoa);
             return new ResponseEntity<Pessoa>(HttpStatus.OK);
         }
         else
@@ -48,12 +55,12 @@ public class PessoaService {
     }
 
     public ResponseEntity<Pessoa> AtualizarPorId(Long id, Pessoa newPessoa){
-        Optional<Pessoa> entry = pessoaRepository.findById(id);
+        Optional<Pessoa> entry = getRepository().findById(id);
         if(entry.isPresent()) {
             Pessoa toUpdate = entry.get();
             toUpdate.setNome(newPessoa.getNome());
             toUpdate.setIdade(newPessoa.getIdade());
-            pessoaRepository.save(toUpdate);
+            getRepository().save(toUpdate);
             return new ResponseEntity<Pessoa>(HttpStatus.OK);
         }
         else
@@ -61,9 +68,9 @@ public class PessoaService {
     }
 
     public ResponseEntity ApagarPorId(Long id){
-        Optional<Pessoa> entry = pessoaRepository.findById(id);
+        Optional<Pessoa> entry = getRepository().findById(id);
         if(entry.isPresent()){
-            pessoaRepository.deleteById(id);
+            getRepository().deleteById(id);
             return new ResponseEntity<>(HttpStatus.OK);
         }
         else
