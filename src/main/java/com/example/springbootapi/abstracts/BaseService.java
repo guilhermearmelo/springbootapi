@@ -6,7 +6,7 @@ import org.springframework.http.ResponseEntity;
 import java.util.List;
 import java.util.Optional;
 
-public abstract class BaseService <E extends BaseEntity>{
+public abstract class BaseService <E extends BaseEntity, D extends BaseDto>{
 
     public abstract BaseRepository<E> getRepository();
 
@@ -29,6 +29,8 @@ public abstract class BaseService <E extends BaseEntity>{
     public ResponseEntity<E> AtualizarPorId(long id, E entity){
         Optional<E> entry = getRepository().findById(id);
         if(entry.isPresent()) {
+            getRepository().deleteById(id);
+            entity.setId(id);
             getRepository().save(entity);
             return new ResponseEntity<E>(HttpStatus.OK);
         }
@@ -45,4 +47,6 @@ public abstract class BaseService <E extends BaseEntity>{
         else
             return new ResponseEntity<>(HttpStatus.NOT_FOUND);
     }
+
+    public abstract E parseDtoToEntity(D dto);
 }

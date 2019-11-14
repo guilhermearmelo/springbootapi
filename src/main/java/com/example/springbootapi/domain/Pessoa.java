@@ -25,7 +25,7 @@ public class Pessoa extends BaseEntity {
     private Integer idade;
 
     @Override
-    public void setId() {
+    public void setId(Long id) {
 
     }
 

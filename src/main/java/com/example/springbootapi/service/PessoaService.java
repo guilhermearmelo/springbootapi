@@ -3,6 +3,7 @@ package com.example.springbootapi.service;
 import com.example.springbootapi.abstracts.BaseRepository;
 import com.example.springbootapi.abstracts.BaseService;
 import com.example.springbootapi.domain.Pessoa;
+import com.example.springbootapi.dto.PessoaDto;
 import com.example.springbootapi.repository.PessoaRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -13,7 +14,7 @@ import java.util.List;
 import java.util.Optional;
 
 @Service
-public class PessoaService extends BaseService<Pessoa> {
+public class PessoaService extends BaseService<Pessoa, PessoaDto> {
 
     private PessoaRepository pessoaRepository;
 
@@ -22,6 +23,14 @@ public class PessoaService extends BaseService<Pessoa> {
         return pessoaRepository;
     }
 
+    @Override
+    public Pessoa parseDtoToEntity(PessoaDto dto){
+        Pessoa entity = new Pessoa();
+        entity.setId(dto.getId());
+        entity.setNome(dto.getNome());
+        entity.setIdade(dto.getIdade());
+        return entity;
+    }
 
     @Autowired
     public PessoaService(PessoaRepository pessoaRepository){

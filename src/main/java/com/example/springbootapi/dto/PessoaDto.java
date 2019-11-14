@@ -1,10 +1,13 @@
 package com.example.springbootapi.dto;
 
+import com.example.springbootapi.abstracts.BaseDto;
 import com.example.springbootapi.domain.Pessoa;
 import lombok.Data;
+import lombok.EqualsAndHashCode;
 
 @Data
-public class PessoaDto {
+@EqualsAndHashCode(callSuper = true)
+public class PessoaDto extends BaseDto {
 
     private String nome;
     private Integer idade;

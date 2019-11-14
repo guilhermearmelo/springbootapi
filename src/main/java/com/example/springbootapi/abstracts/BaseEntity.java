@@ -11,7 +11,7 @@ import java.io.Serializable;
 @MappedSuperclass
 public abstract class BaseEntity implements Serializable {
     public abstract Long getId();
-    public abstract void setId();
+    public abstract void setId(Long id);
 
     @Column
     private String nome;
