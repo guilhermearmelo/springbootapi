@@ -53,6 +53,12 @@ public abstract class BaseRestController <E extends BaseEntity, D extends BaseDt
         return  getService().ApagarPorId(id);
     }
 
+    // DELETE ALL
+    @RequestMapping(value = "/pessoa", method = RequestMethod.DELETE)
+    public ResponseEntity<Object> DeleteAll(){
+        return getService().ApagarTodos();
+    }
+
 
 
     protected abstract List<D> parseToDto(List<E> list);

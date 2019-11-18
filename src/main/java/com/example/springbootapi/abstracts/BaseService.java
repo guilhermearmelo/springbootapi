@@ -48,5 +48,14 @@ public abstract class BaseService <E extends BaseEntity, D extends BaseDto>{
             return new ResponseEntity<>(HttpStatus.NOT_FOUND);
     }
 
+    public ResponseEntity<Object> ApagarTodos(){
+        if(getRepository().count() > 0){
+            getRepository().deleteAll();
+            return new ResponseEntity<>(HttpStatus.OK);
+        }else{
+            return new ResponseEntity<>(HttpStatus.NOT_MODIFIED);
+        }
+    }
+
     public abstract E parseDtoToEntity(D dto);
 }
