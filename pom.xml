@@ -12,7 +12,7 @@
 	<artifactId>springbootapi</artifactId>
 	<version>0.0.1-SNAPSHOT</version>
 	<name>springbootapi</name>
-	<description>Projeto para teste de padroes de projeto e documentacao</description>
+	<description>Projeto para construção de API-REST, teste de padroes de projeto e documentacao com SWAGGER-UI</description>
 
 	<properties>
 		<java.version>1.8</java.version>
