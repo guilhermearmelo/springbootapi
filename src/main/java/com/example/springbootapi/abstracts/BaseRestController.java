@@ -28,6 +28,15 @@ public abstract class BaseRestController <E extends BaseEntity, D extends BaseDt
         return parseToDto(result);
     }
 
+    // POST LIST
+    @RequestMapping(value = "/pessoalist", method = RequestMethod.POST)
+    public ResponseEntity<List<D>> PostList(@Valid @RequestBody List <E> list){
+        ResponseEntity<List<E>> response = getService().InserirLista(list);
+        List<D> listDto = parseToDto(response.getBody());
+        HttpStatus status = response.getStatusCode();
+        return new ResponseEntity<List<D>>(listDto,status);
+    }
+
     // GET BY ID
     @RequestMapping(value = "/pessoa/{id}", method = RequestMethod.GET)
     public ResponseEntity<D> GetById(@PathVariable(value = "id") long id) {

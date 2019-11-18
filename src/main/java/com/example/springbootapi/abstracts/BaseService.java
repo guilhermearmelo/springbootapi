@@ -18,6 +18,17 @@ public abstract class BaseService <E extends BaseEntity, D extends BaseDto>{
         return getRepository().save(entity);
     }
 
+    public ResponseEntity<List<E>> InserirLista(List<E> list){
+        try {
+            for (E entry : list) {
+                getRepository().save(entry);
+            }
+            return new ResponseEntity<List<E>>(list, HttpStatus.OK);
+        }catch (Exception e){
+            return new ResponseEntity<List<E>>(list, HttpStatus.NOT_ACCEPTABLE);
+        }
+    }
+
     public ResponseEntity<E> BuscarPorId(long id){
         Optional<E> entity = getRepository().findById(id);
         if(entity.isPresent())
